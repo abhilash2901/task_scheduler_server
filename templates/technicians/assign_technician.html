@@ -1,0 +1,236 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container-fluid">
+            <div class="block-header">
+                <h2>Available Technicians</h2>
+            </div>
+
+            <!-- Widgets -->
+
+
+            <div class="row clearfix jsdemo-notification-button">
+
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                Address: {{customer.address}} <br><br>
+                                Time For Job: {{customer.time_for_job}} Mins
+                            </h2>
+                            <ul class="header-dropdown m-r--5">
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        <i class="material-icons">more_vert</i>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li><a href="/add-customers/">Add Customer</a></li>
+                                        <!--<li><a href="javascript:void(0);">Another action</a></li>-->
+                                        <!--<li><a href="javascript:void(0);">Something else here</a></li>-->
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="body">
+                            <div class="table-responsive">
+                                <table class="table table table-condensed table-hover js-basic-example dataTable">
+
+
+
+                                    {% for user in users_list %}
+                                    <tbody>
+
+
+                                        <tr class="name-row ">
+                                            <td colspan="4" class="col-blue"><h4>{{user.user.user.first_name}}</h4></td>
+                                        </tr>
+
+                                        <tr>
+                                            <td style="width: 130px;">Date</td>
+                                            <td style="width: 169px;">Slot</td>
+                                            <td >Location</td>
+                                            <td style="width: 110px;">Duration to Reach</td>
+                                        </tr>
+                                       {% for free_times in user.sorted_free_time %}
+                                       <tr class="date-row bg-light-grey">
+                                           <td colspan="4">{{free_times.date}}</td>
+                                       </tr>
+                                        {% for time in free_times.times %}
+                                       <tr>
+                                           <td>{{forloop.counter}}</td>
+                                           <td>{{time.start}} - {{time.end }}  </td>
+                                           <td>{{time.current_addrs}}</td>
+                                           <td class="{{time.color}}">{{time.duration_mins}} Mins</td>
+                                       </tr>
+                                       {% endfor %}
+
+                                       {% endfor %}
+                                        {% for free_times in user.sorted_fullfree_time %}
+                                           <tr class="date-row bg-light-grey">
+                                               <td colspan="4">{{free_times.date}}</td>
+                                           </tr>
+                                            {% for time in free_times.times %}
+                                       <tr>
+                                           <td>{{forloop.counter}}</td>
+                                           <td>{{time.start}} - {{time.end }}  </td>
+                                           <td>{{time.current_addrs}}</td>
+                                           <td class="{{time.color}}">{{time.duration_mins}} Mins</td>
+                                       </tr>
+                                       {% endfor %}
+
+                                           {% endfor %}
+                                    </tbody>
+                                    {% endfor %}
+
+
+
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal demo-masked-input fade" id="defaultModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog" role="document">
+                    <input type="hidden" name="tech_id" id="tech_id">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h2 class="modal-title" id="defaultModalLabel" style="text-align: center;">Assign to <span id="tech_name"></span></h2>
+                        </div>
+                        <div id="message" style="text-align: center;color: red;"></div>
+                        <div class="col-md-10">
+                            <b>Start Date Time</b>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">date_range</i>
+                                </span>
+                                <div class="form-line">
+                                    <input type="text" class="form-control datetime"  id="from_time" placeholder="Ex: 30/07/2016 23:59">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-10">
+                            <b>End Date Time</b>
+                            <div class="input-group">
+                                <span class="input-group-addon">
+                                    <i class="material-icons">date_range</i>
+                                </span>
+                                <div class="form-line">
+                                    <input type="text" class="form-control datetime"  id="end_time" placeholder="Ex: 30/07/2016 23:59">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-link waves-effect save_job">SAVE CHANGES</button>
+                            <button type="button" class="btn btn-link waves-effect" data-dismiss="modal">CLOSE</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'plugins/jquery-datatable/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js' %}"></script>
+    <script src="{% static 'plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'plugins/jquery-datatable/extensions/export/buttons.flash.min.js' %}"></script>
+    <script src="{% static 'plugins/jquery-datatable/extensions/export/jszip.min.js' %}"></script>
+    <script src="{% static 'plugins/jquery-datatable/extensions/export/pdfmake.min.js' %}"></script>
+    <script src="{% static 'plugins/jquery-datatable/extensions/export/vfs_fonts.js' %}"></script>
+    <script src="{% static 'plugins/jquery-datatable/extensions/export/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'plugins/jquery-datatable/extensions/export/buttons.print.min.js' %}"></script>
+
+    <!-- Custom Js -->
+    <script src="{% static 'js/admin.js' %}"></script>
+    <script src="{% static 'js/pages/tables/jquery-datatable.js' %}"></script>
+    <script src="{% static 'plugins/jquery-inputmask/jquery.inputmask.bundle.js' %}"></script>
+
+
+    <!-- Bootstrap Core Js -->
+
+    <!-- Select Plugin Js -->
+
+    <!-- Slimscroll Plugin Js -->
+    <script src="{% static 'plugins/jquery-slimscroll/jquery.slimscroll.js' %}"></script>
+
+    <!-- Bootstrap Colorpicker Js -->
+    <script src="{% static 'plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.js' %}"></script>
+
+    <!-- Dropzone Plugin Js -->
+    <script src="{% static 'plugins/dropzone/dropzone.js' %}"></script>
+
+    <!-- Input Mask Plugin Js -->
+    <script src="{% static 'plugins/jquery-inputmask/jquery.inputmask.bundle.js' %}"></script>
+
+    <!-- Multi Select Plugin Js -->
+    <script src="{% static 'plugins/multi-select/js/jquery.multi-select.js' %}"></script>
+
+    <!-- Jquery Spinner Plugin Js -->
+    <script src="{% static 'plugins/jquery-spinner/js/jquery.spinner.js' %}"></script>
+
+    <!-- Bootstrap Tags Input Plugin Js -->
+    <script src="{% static 'plugins/bootstrap-tagsinput/bootstrap-tagsinput.js' %}"></script>
+
+    <!-- noUISlider Plugin Js -->
+    <!-- Waves Effect Plugin Js -->
+    <script src="{% static 'plugins/node-waves/waves.js' %}"></script>
+
+    <!-- Custom Js -->
+    <script src="{% static 'js/admin.js' %}"></script>
+    <script src="{% static 'plugins/bootstrap-notify/bootstrap-notify.js' %}"></script>
+    <script src="{% static 'js/pages/forms/advanced-form-elements.js' %}"></script>
+
+    <!-- Demo Js -->
+    <script src="{% static 'js/demo.js' %}"></script>
+    <script src="{% static 'js/pages/ui/notifications.js' %}"></script>
+    <script>
+    $(document).on("click",".assign_job",function(){
+        $("#defaultModal").modal("show")
+        $("#tech_name").html($(this).attr("data-for"))
+        $("#tech_id").val($(this).attr("data-target"))
+        <!--showNotification("bg-red","asdasdASdasdasdasdasd","top","right",null,null)-->
+    });
+    $(document).on("click",".save_job",function(){
+        var id = $("#tech_id").val();
+        var from_time = $("#from_time").val();
+        var end_time = $("#end_time").val();
+        var $this = $(this);
+        data = {'id':id,'type':'assign_job','from_time':from_time,'end_time':end_time,"csrfmiddlewaretoken":"{{csrf_token}}"}
+
+        if(from_time && end_time){
+            console.log(from_time,end_time)
+            $.ajax({
+                url: '/dashboard/',
+                type: "POST",
+                data:data,
+                success: function(result){
+                    console.log(result)
+                    if(!result.status)
+                        $("#message").html(result.message)
+                    else
+                        $("#defaultModal").modal("hide")
+                }
+            });
+        }
+        else{
+            $("#message").html("All fields are mandatory")
+        }
+
+
+    })
+    $(document).on("click",".delete-user",function(){
+        var id = $(this).attr("data-attr")
+        var $this = $(this)
+        $.ajax({
+            url: '/dashboard/',
+            type: "POST",
+            data:{'id':id,"csrfmiddlewaretoken":"{{csrf_token}}"},
+            success: function(result){
+                $this.closest("tr").remove();
+            }
+        });
+    })
+</script>
+{% endblock %}

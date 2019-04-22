@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container-fluid">
+            <div class="block-header">
+                <h2>Technicians</h2>
+            </div>
+
+            <!-- Widgets -->
+
+
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="card">
+                        <div class="header">
+                            <h2>
+                                CUSTOMER LIST
+                            </h2>
+                            <ul class="header-dropdown m-r--5">
+                                <li class="dropdown">
+                                    <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                        <i class="material-icons">more_vert</i>
+                                    </a>
+                                    <ul class="dropdown-menu pull-right">
+                                        <li><a href="/add-customers/">Add Customer</a></li>
+                                        <!--<li><a href="javascript:void(0);">Another action</a></li>-->
+                                        <!--<li><a href="javascript:void(0);">Something else here</a></li>-->
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped table-hover js-basic-example dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Address</th>
+                                            <th>Time for job</th>
+                                            <th>Technician</th>
+                                            <th>Action</th>
+
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                         {% for user in users_list %}
+                                        <tr>
+                                            <td>{{forloop.counter}}</td>
+                                            <td>{{user.address}}</td>
+                                            <td>
+                                                {{user.time_for_job}} minutes
+                                            </td>
+                                            <td>
+
+                                            </td>
+                                            <td>
+                                               <a href="/edit-customers/{{user.id}}"><i class="material-icons edt-icon">mode_edit</i></a>
+                                                <i class="material-icons dlt-icon delete-user" data-attr="{{user.id}}">delete</i>
+
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{% static 'plugins/jquery-datatable/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.js' %}"></script>
+    <script src="{% static 'plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'plugins/jquery-datatable/extensions/export/buttons.flash.min.js' %}"></script>
+    <script src="{% static 'plugins/jquery-datatable/extensions/export/jszip.min.js' %}"></script>
+    <script src="{% static 'plugins/jquery-datatable/extensions/export/pdfmake.min.js' %}"></script>
+    <script src="{% static 'plugins/jquery-datatable/extensions/export/vfs_fonts.js' %}"></script>
+    <script src="{% static 'plugins/jquery-datatable/extensions/export/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'plugins/jquery-datatable/extensions/export/buttons.print.min.js' %}"></script>
+
+    <!-- Custom Js -->
+    <script src="{% static 'js/admin.js' %}"></script>
+    <script src="{% static 'js/pages/tables/jquery-datatable.js' %}"></script>
+    <script>
+    $(document).on("click",".delete-user",function(){
+        var id = $(this).attr("data-attr")
+        var $this = $(this)
+        $.ajax({
+            url: '/dashboard/',
+            type: "POST",
+            data:{'id':id,"csrfmiddlewaretoken":"{{csrf_token}}"},
+            success: function(result){
+                $this.closest("tr").remove();
+            }
+        });
+    })
+</script>
+{% endblock %}

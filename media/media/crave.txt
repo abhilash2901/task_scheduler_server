@@ -1,0 +1,130 @@
+===Database crave
+
+== Table structure for table changing_room
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|bigint(20)|No|
+|name|varchar(50)|No|
+|store_id|bigint(20)|No|
+|shopper_id|bigint(20)|Yes|NULL
+|group_id|bigint(20)|No|
+== Table structure for table changing_room_group
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|bigint(20)|No|
+|**first_name**|varchar(50)|No|
+|**store_id**|bigint(20)|No|
+== Table structure for table changing_room_queue
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|bigint(20)|No|
+|shopper_id|bigint(20)|No|
+|store_id|bigint(20)|No|
+== Table structure for table customer
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|bigint(20)|No|
+|name|varchar(50)|No|
+== Table structure for table device
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|bigint(20)|No|
+|name|varchar(50)|Yes|NULL
+|store_id|bigint(20)|No|
+|active|tinyint(1)|Yes|NULL
+|notification_token|varchar(128)|No|
+== Table structure for table device_changing_room
+
+|------
+|Column|Type|Null|Default
+|------
+|//**device_id**//|bigint(20)|No|
+|//**changing_room_id**//|bigint(20)|No|
+== Table structure for table flyway_schema_history
+
+|------
+|Column|Type|Null|Default
+|------
+|//**installed_rank**//|int(11)|No|
+|version|varchar(50)|Yes|NULL
+|description|varchar(200)|No|
+|type|varchar(20)|No|
+|script|varchar(1000)|No|
+|checksum|int(11)|Yes|NULL
+|installed_by|varchar(100)|No|
+|installed_on|timestamp|No|CURRENT_TIMESTAMP
+|execution_time|int(11)|No|
+|success|tinyint(1)|No|
+== Table structure for table request
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|bigint(20)|No|
+|status|varchar(30)|Yes|NULL
+|created_by|bigint(20)|No|
+|store_id|bigint(20)|No|
+|changing_room_id|bigint(20)|No|
+|assigned_user_id|bigint(20)|Yes|NULL
+|sku|varchar(50)|No|
+|created_at|timestamp|No|CURRENT_TIMESTAMP
+|assigned_at|timestamp|Yes|NULL
+== Table structure for table shopper
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|bigint(20)|No|
+|name|varchar(50)|No|
+|**phone_number**|varchar(13)|Yes|NULL
+== Table structure for table shopper_item
+
+|------
+|Column|Type|Null|Default
+|------
+|//**shopper_id**//|bigint(20)|No|
+|//**sku**//|varchar(50)|No|
+== Table structure for table store
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|bigint(20)|No|
+|name|varchar(50)|No|
+|customer_id|bigint(20)|No|
+== Table structure for table user
+
+|------
+|Column|Type|Null|Default
+|------
+|//**id**//|bigint(20)|No|
+|first_name|varchar(50)|No|
+|**phone_number**|varchar(15)|No|
+|pin|varchar(255)|No|
+|role|varchar(15)|No|
+|store_id|bigint(20)|No|
+|changing_room_group_id|bigint(20)|Yes|NULL
+|active|tinyint(1)|No|
+|**email**|varchar(255)|Yes|NULL
+|device_id|bigint(20)|Yes|NULL
+|last_name|varchar(50)|Yes|NULL
+|gender|varchar(10)|Yes|NULL
+|allow_all_stores|tinyint(1)|No|
+|notification_token|varchar(128)|Yes|NULL
+== Table structure for table user_store
+
+|------
+|Column|Type|Null|Default
+|------
+|//**user_id**//|bigint(20)|No|
+|//**store_id**//|bigint(20)|No|
